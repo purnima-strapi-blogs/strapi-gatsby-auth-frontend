@@ -39,3 +39,14 @@ img:hover {
   opacity: 1 !important;
   transition: opacity 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) !important;
 }
+
+/* Added by me */
+.uk-width-medium.uk-margin{
+  width: 800px !important;
+  margin: 40px auto !important;
+} 
+
+
+.uk-section {
+ text-align: center !important;
+}

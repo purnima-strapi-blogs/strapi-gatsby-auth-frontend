@@ -42,23 +42,23 @@ export const query = graphql`
 `;
 
 const Category = ({ data }) => {
-  const articles = data.articles.edges;
-  const category = data.category.name;
-  const seo = {
-    metaTitle: category,
-    metaDescription: `All ${category} articles`,
-  };
+    const articles = data.articles.edges;
+    const category = data.category.name;
+    const seo = {
+        metaTitle: category,
+        metaDescription: `All ${category} articles`,
+    };
 
-  return (
-    <Layout seo={seo}>
-      <div className="uk-section">
-        <div className="uk-container uk-container-large">
-          <h1>{category}</h1>
-          <ArticlesComponent articles={articles} />
-        </div>
-      </div>
-    </Layout>
-  );
+    return (
+        <Layout seo={seo}>
+            <div className="uk-section">
+                <div className="uk-container uk-container-large">
+                    <h1>{category}</h1>
+                    <ArticlesComponent articles={articles} />
+                </div>
+            </div>
+        </Layout>
+    );
 };
 
 export default Category;

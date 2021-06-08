@@ -1,70 +1,29 @@
-import React from "react";
-import { graphql, useStaticQuery } from "gatsby";
-import Layout from "../components/layout";
-import ArticlesComponent from "../components/articles";
-import "../assets/css/main.css";
+import React from "react"
+import { Link } from "gatsby"
+import { getUser, isLoggedIn } from "../services/auth"
 
-const IndexPage = () => {
-  const data = useStaticQuery(query);
+import Layout from "../components/layout"
+import Logout from "../components/logout"
 
-  return (
-    <Layout seo={data.strapiHomepage.seo}>
-      <div className="uk-section">
-        <div className="uk-container uk-container-large">
-          <h1>{data.strapiHomepage.hero.title}</h1>
-          <ArticlesComponent articles={data.allStrapiArticle.edges} />
-        </div>
-      </div>
-    </Layout>
-  );
-};
-
-const query = graphql`
-  query {
-    strapiHomepage {
-      hero {
-        title
-      }
-      seo {
-        metaTitle
-        metaDescription
-        shareImage {
-          localFile {
-            publicURL
-          }
-        }
-      }
-    }
-    allStrapiArticle(filter: { status: { eq: "published" } }) {
-      edges {
-        node {
-          strapiId
-          slug
-          title
-          category {
-            name
-          }
-          image {
-            localFile {
-              childImageSharp {
-                gatsbyImageData(width: 800, height: 500)
-              }
-            }
-          }
-          author {
-            name
-            picture {
-              localFile {
-                childImageSharp {
-                  gatsbyImageData(width: 30, height: 30)
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-export default IndexPage;
+export default function Index() {
+    
+    return (
+        <Layout>
+            {/* <Logout/> */}
+            <h1>Hello {isLoggedIn() ? JSON.stringify(getUser().username) : "Commet ca ve?"}!</h1>
+            <p>
+                {isLoggedIn() ? (
+                <>
+                    You are logged in, so check your{" "}
+                    <Link to="/app/profile">profile</Link>
+                </>
+                ) : (
+                <>
+                    You should <Link to="/app/login">log in</Link> to see restricted
+                    content
+                </>
+                )}
+            </p>
+        </Layout>
+  )
+}
