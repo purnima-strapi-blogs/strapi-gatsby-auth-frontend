@@ -1,13 +1,6 @@
 import React, { useState, useReducer } from 'react';
 import { getCurrentUser, getCurrentUserToken } from '../services/auth';
 
-// let user = localStorage.getItem('currentUser')
-// 	? JSON.parse(localStorage.getItem('currentUser')).username
-// 	: '';
-// let token = localStorage.getItem('currentUser')
-// 	? JSON.parse(localStorage.getItem('currentUser')).auth_token
-// 	: '';
-
 const username = getCurrentUser()
 const token = getCurrentUserToken()
 
@@ -17,12 +10,27 @@ export const initialState = {
 	token: '' || token,
 	loading: false,
 	errorMessage: null,
+
 };
 
-console.log("initialState", initialState)
 export const AuthReducer = (initialState, action) => {
 	console.log("action ", action)
 	switch (action.type) {
+		case 'REQUEST_SIGNUP':
+			return {
+				...initialState,
+				loading: true
+			}
+		case 'REGISTER_SUCCESS':
+			return {
+				...initialState,
+				errorMessage: ''
+			}
+		case 'REGISTER_ERROR':
+			return {
+				...initialState,
+				errorMessage: action.error
+			}	
 		case 'REQUEST_LOGIN':
 			return {
 				...initialState,
@@ -34,6 +42,7 @@ export const AuthReducer = (initialState, action) => {
 				username: action.payload.username,
 				token: action.payload.token,
 				loading: false,
+				errorMessage: ''
 			};
 		case 'LOGOUT':
 			return {

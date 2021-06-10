@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { navigate, Link } from 'gatsby'
 import useAuth from '../context/actions'
+import { getState } from '../context/context';
 
 
 const Login = ({ location, history }) => {
-    // const { state, login } = useAuth()
     const [emailId, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
@@ -21,32 +21,14 @@ const Login = ({ location, history }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        console.log(emailId, password)
-        /* 
-            Make API request to the backend and send identifier and password 
-            and clear the input fields value
-        */
         try {
-            // const currentUser = await login(emailId, password);
-            // const {jwt, user: {username, email} = {}} = currentUser.data;
-           
-            //save user in localstorage
-
-            // setUser({jwt, username, email})
-           
-            await loginAction(emailId, password);
-            navigate(`/app/profile`)
+            const response = await loginAction(emailId, password);
+            navigate(`/app/articles`)
         }
         catch (err) {
-            console.log("err", err)
-
+            setError(err)
         }
     }
-    
-    // if (isLoggedIn()) {
-    //     navigate(`/app/profile`)
-    // }
-  
 
     return (
         <div className="uk-section">
@@ -59,37 +41,51 @@ const Login = ({ location, history }) => {
                     <div className="uk-card uk-card-large uk-card-default uk-card-body">
                         <form className="uk-form-stacked">
                             <div className="uk-width-1-2@s uk-margin uk-align-center">
+                                <label htmlFor="email" className="uk-form-label">Email</label>
                                 <input
                                     className="uk-input"
                                     type="email"
                                     name="emailId"
+                                    id="email"
                                     placeholder="Enter your email here"
                                     onChange={handleChange}
-                                //value={identifier}
+                                    required={true}
                                 />
+                                <span className="uk-text-danger"></span>
                             </div>
                             <div className="uk-width-1-2@s uk-margin uk-align-center">
+                                <label htmlFor="password" className="uk-form-label">Password</label>
                                 <input
                                     className="uk-input"
                                     type="password"
                                     name="password"
+                                    id="password"
                                     placeholder="Enter your password"
                                     onChange={handleChange}
-                                //value={password}
                                 />
+                                <span className="uk-text-danger"></span>
                             </div>
                             <p uk-margin>
                                 <button
                                     onClick={handleSubmit}
+                                    type="submit"
                                     className="uk-button uk-button-primary uk-button-large"
                                 >
                                     Log In
                                 </button>
                             </p>
                         </form>
+                        <div>
+                            {
+                                (error.length > 1) && (
+                                    <span className="uk-text-danger">
+                                        { error }
+                                    </span>
+                            )}
+                        </div>
                     </div>
                 </div>
-                <Link to="/app/profile">Go to Home Page</Link>
+                <Link to="/app/articles">Go to Home Page</Link>
             </div>
         </div>
     )

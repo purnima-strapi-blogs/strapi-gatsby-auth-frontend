@@ -35,6 +35,6 @@ export async function login(email, password) {
         });
         return data
     } catch(err) {
-        console.log("err is", err);
+        throw err.response.data.message[0].messages[0].message;
     }
 }

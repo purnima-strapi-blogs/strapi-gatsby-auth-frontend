@@ -1,35 +1,48 @@
-// const ROOT_URL = 'https://secret-hamlet-03431.herokuapp.com';
-
 import { login, signup } from '../services/api';
-import { getCurrentState } from './context';
+import { getState } from './context';
 import { setUser, logout } from '../services/auth';
 
 const useAuth = () => { 
-	const [state, dispatch] = getCurrentState();
+	const [state, dispatch] = getState();
+	async function signupAction(username, email, password) {
+		try {
+			dispatch({ type: 'REQUEST_SIGNUP' })
+			let response = await signup(username, email, password)
+
+			if(response && response.status) {
+				if(response.status === 200) {
+					dispatch({ type: 'REGISTER_SUCCESS', payload: response.data });
+					return response
+				}
+			}
+		} catch(error) {
+			dispatch({ type: 'REGISTER_ERROR', error: error.message });
+			console.log("REGISTER_ERROR oauth.signup", error.message)
+			return error
+		}
+
+	}
 	async function loginAction(email, password) {
 		try {
 			dispatch({ type: 'REQUEST_LOGIN' });
 			let response = await login(email, password);
-			console.log("response", response)
+			console.log("response loginAction", response)
 			const data = {
 				...state,
 				token: response.data.jwt,
 				username: response.data.user.username,
 			}
 	
-			if (response.data.user) {
+			if (response && response.data.user) {
 				dispatch({ type: 'LOGIN_SUCCESS', payload: data });
 				setUser({token: data.token, username: data.username})
 				return data;
 			}
-	
-			dispatch({ type: 'LOGIN_ERROR', error: 'custom message for login error' });
-			console.log("response.error", response)
-			
-			return;
+
 		} catch (error) {
 			dispatch({ type: 'LOGIN_ERROR', error: error });
 			console.log(error);
+			throw error;
 		}
 	}
 	function logoutAction(callback) {
@@ -37,55 +50,7 @@ const useAuth = () => {
 		logout(callback)
 	}
 
-	return { loginAction, logoutAction }
+	return { loginAction, logoutAction, signupAction }
 }
 
-
-
-
-
 export default useAuth;
-
-
-
-
-
-
-
-
-
-
-
-
-// export async function login(dispatch, loginPayload) {
-// 	const requestOptions = {
-// 		method: 'POST',
-// 		headers: { 'Content-Type': 'application/json' },
-// 		body: JSON.stringify(loginPayload),
-// 	};
-
-// 	try {
-// 		dispatch({ type: 'REQUEST_LOGIN' });
-// 		let response = await fetch(`${ROOT_URL}/login`, requestOptions);
-// 		let data = await response.json();
-
-// 		if (data.user) {
-// 			dispatch({ type: 'LOGIN_SUCCESS', payload: data });
-// 			localStorage.setItem('currentUser', JSON.stringify(data));
-// 			return data;
-// 		}
-
-// 		dispatch({ type: 'LOGIN_ERROR', error: data.errors[0] });
-// 		console.log(data.errors[0]);
-// 		return;
-// 	} catch (error) {
-// 		dispatch({ type: 'LOGIN_ERROR', error: error });
-// 		console.log(error);
-// 	}
-// }
-
-// export async function logout(dispatch) {
-// 	dispatch({ type: 'LOGOUT' });
-// 	localStorage.removeItem('currentUser');
-// 	localStorage.removeItem('token');
-// }

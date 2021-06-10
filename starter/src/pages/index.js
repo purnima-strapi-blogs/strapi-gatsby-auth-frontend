@@ -3,7 +3,6 @@ import { Link } from "gatsby"
 import { getUser, isLoggedIn } from "../services/auth"
 
 import Layout from "../components/layout"
-import Logout from "../components/logout"
 
 export default function Index() {
     
@@ -15,7 +14,7 @@ export default function Index() {
                 {isLoggedIn() ? (
                 <>
                     You are logged in, so check your{" "}
-                    <Link to="/app/profile">profile</Link>
+                    <Link to="/app/articles">profile</Link>
                 </>
                 ) : (
                 <>

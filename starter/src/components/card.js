@@ -4,7 +4,7 @@ import { GatsbyImage } from "gatsby-plugin-image";
 
 const Card = ({ article }) => {
     return (
-        <Link to={`/app/article/${article.node.slug}`} className="uk-link-reset">
+        <Link to={`/app/articles/${article.node.slug}`} className="uk-link-reset">
             <div className="uk-card uk-card-muted">
                 <div className="uk-card-media-top">
                     <GatsbyImage

@@ -3,7 +3,6 @@ import { initialState, AuthReducer } from './reducer';
 
 const AuthContext = createContext();
 
-
 export const AuthProvider = ({ children }) => {
 	return (
 		<AuthContext.Provider value={useReducer(AuthReducer, initialState)}>
@@ -20,7 +19,7 @@ export const wrapRootElement = ({ element }) => {
 	)
 }
 
-export function getCurrentState() {
+export function getState() {
 	const context = useContext(AuthContext);
 	if (context === undefined) {
 		throw new Error('useAuthState must be used within a AuthProvider');
