@@ -1,12 +1,19 @@
 import React from "react";
+import { getCurrentUserToken } from "../services/auth";
 import Card from "./card";
 
 const Articles = ({ articles }) => {
-    const leftArticlesCount = Math.ceil(articles.length / 5);
-    const leftArticles = articles.slice(0, leftArticlesCount);
-    const rightArticles = articles.slice(leftArticlesCount, articles.length);
+    console.log(getCurrentUserToken());
+    let leftArticlesCount = 0, leftArticles = 0, rightArticles = 0;
+
+    if(articles) {
+        leftArticlesCount = Math.ceil(articles.length / 5);
+        leftArticles = articles.slice(0, leftArticlesCount);
+        rightArticles = articles.slice(leftArticlesCount, articles.length);
+    }
 
     return (
+        articles ?
         <div>
             <div className="uk-child-width-1-2@s" data-uk-grid="true">
                 <div>
@@ -14,7 +21,7 @@ const Articles = ({ articles }) => {
                         return (
                             <Card
                                 article={article}
-                                key={`article__left__${article.node.slug}`}
+                                key={`article__left__${article.slug}`}
                             />
                         );
                     })}
@@ -25,7 +32,7 @@ const Articles = ({ articles }) => {
                             return (
                                 <Card
                                     article={article}
-                                    key={`article__right__${article.node.slug}`}
+                                    key={`article__right__${article.slug}`}
                                 />
                             );
                         })}
@@ -33,7 +40,11 @@ const Articles = ({ articles }) => {
                 </div>
             </div>
         </div>
-    );
+    : 
+    <div>
+        No articles yet
+    </div>
+    )
 };
 
 export default Articles;

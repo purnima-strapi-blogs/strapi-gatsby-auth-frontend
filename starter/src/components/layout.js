@@ -5,8 +5,8 @@ import Nav from "./nav";
 import Seo from "./seo";
 
 const Layout = ({ children, seo }) => (
-  <StaticQuery
-    query={graphql`
+    <StaticQuery
+        query={graphql`
       query {
         strapiHomepage {
           seo {
@@ -21,18 +21,18 @@ const Layout = ({ children, seo }) => (
         }
       }
     `}
-    render={(data) => (
-      <>
-        <Seo seo={seo} />
-        <Nav />
-        <main>{children}</main>
-      </>
-    )}
-  />
+        render={(data) => (
+            <>
+                <Seo seo={seo} />
+                <Nav />
+                <main>{children}</main>
+            </>
+        )}
+    />
 );
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 export default Layout;

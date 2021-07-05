@@ -11,11 +11,12 @@ export const setUser = user => (
 
 export const isLoggedIn = () => {
     const user = getUser()
-
-    return !!user.username && !!user.token
+    return !!user.token && !!user.user.username
 }
-export const getCurrentUser = () => isBrowser && getUser().username
-export const getCurrentUserToken = () => isBrowser && getUser().token
+
+
+export const getCurrentUser = () =>  getUser().user
+export const getCurrentUserToken = () => getUser().token
 
 export const logout = callback => {
     setUser({})

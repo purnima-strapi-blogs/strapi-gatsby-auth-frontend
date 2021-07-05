@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { navigate, Link } from 'gatsby'
-import useAuth from '../context/actions'
-import { getState } from '../context/context';
+import {useAuth} from '../context/authStore/actions'
+import Layout from './layout';
 
-
-const Login = ({ location, history }) => {
+const Login = () => {
     const [emailId, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
@@ -21,6 +20,7 @@ const Login = ({ location, history }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+        
         try {
             const response = await loginAction(emailId, password);
             navigate(`/app/articles`)
@@ -31,7 +31,8 @@ const Login = ({ location, history }) => {
     }
 
     return (
-        <div className="uk-section">
+        <Layout>
+            <div className="uk-section">
             <div className="uk-container">
                 <h1>Login</h1>
                 <p>Please use your credentials to login</p>
@@ -87,7 +88,8 @@ const Login = ({ location, history }) => {
                 </div>
                 <Link to="/app/articles">Go to Home Page</Link>
             </div>
-        </div>
+            </div>
+        </Layout>
     )
 }
 

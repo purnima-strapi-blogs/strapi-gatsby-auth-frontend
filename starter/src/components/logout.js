@@ -1,48 +1,39 @@
 import React from "react"
-import { logout, isLoggedIn, getCurrentUser } from '../services/auth';
+import { isLoggedIn, getCurrentUser } from '../services/auth';
 import { Link, navigate } from "@reach/router"
-import useAuth from '../context/actions';
+import {useAuth} from '../context/authStore/actions';
 
 const Logout = () => {
     let details;
     const { logoutAction } = useAuth();
+
     if (!isLoggedIn()) {
         details = (
-            <p >
+            <div >
                 To get the full app experience, you’ll need to
                 {` `}
                 <Link to="/app/login"> log in</Link>.
-            </p>
+            </div>
         )
     } else {
-        const { username, email } = getCurrentUser()
-
+        const {username, email} = getCurrentUser()
         details = (
-            <p >
-                Logged in as {username} ({email}
-            )!
+            <div>
+                Welcome {username}, email is ({email})
                 {` `}
                 <a
                     href="/"
                     onClick={event => {
                         event.preventDefault()
-                        //logout(() => navigate(`/app/login`))
                         logoutAction(() => navigate(`/app/login`))
                     }}
                 >
                     log out
             </a>
-            </p>
+            </div>
         )
     }
-    // const handleLogout = (event) => {
-    //     logout(() => navigate(`/app/login`))
-    // }
-
     return (
-        // <button onClick={handleLogout}>
-        //     Logout
-        // </button>
         <div>
             {details}
         </div>

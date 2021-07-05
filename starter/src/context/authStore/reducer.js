@@ -1,5 +1,4 @@
-import React, { useState, useReducer } from 'react';
-import { getCurrentUser, getCurrentUserToken } from '../services/auth';
+import { getCurrentUser, getCurrentUserToken } from '../../services/auth';
 
 const username = getCurrentUser()
 const token = getCurrentUserToken()
@@ -10,11 +9,12 @@ export const initialState = {
 	token: '' || token,
 	loading: false,
 	errorMessage: null,
+	articles: [],
+	loading: false
 
 };
 
 export const AuthReducer = (initialState, action) => {
-	console.log("action ", action)
 	switch (action.type) {
 		case 'REQUEST_SIGNUP':
 			return {
@@ -57,7 +57,12 @@ export const AuthReducer = (initialState, action) => {
 				loading: false,
 				errorMessage: action.error,
 			};
-
+		case 'FETCH_ARTICLES_SUCCESS': 
+			return {
+				...initialState,
+				loading: false,
+				articles: action.payload
+			}
 		default:
 			throw new Error(`Unhandled action type: ${action.type}`);
 	}

@@ -1,9 +1,9 @@
 import React from "react"
 import { navigate } from "gatsby"
-import { isLoggedIn } from "../services/auth"
+import { isLoggedIn, getUser } from "../services/auth"
 
 const PrivateRoute = ({ component: Component, location, ...rest }) => {
-    console.log("provite route is called")
+    console.log("isLoggedIn", isLoggedIn())
     if (!isLoggedIn() && location.pathname !== `/app/login`) {
         navigate("/app/login")
         return null

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { navigate, Link } from 'gatsby'
-import useAuth from '../context/actions';
+import { useAuth } from '../context/authStore/actions';
+import Layout from './layout';
 
 const Signup = () => {
     const [username, setUsername] = useState('')
@@ -36,7 +37,8 @@ const Signup = () => {
         }  
     }
     return (
-        <div className="uk-section">
+        <Layout>
+             <div className="uk-section">
             <div className="uk-container">
                 <h1>Sign Up</h1>
                 <p>Register here</p>
@@ -93,6 +95,7 @@ const Signup = () => {
                 </div>
             </div>
         </div>    
+        </Layout>
     )
 }
 

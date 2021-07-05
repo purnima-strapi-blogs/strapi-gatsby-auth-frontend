@@ -1,8 +1,8 @@
-import { login, signup } from '../services/api';
-import { getState } from './context';
-import { setUser, logout } from '../services/auth';
+import { login, signup, fetchArticles } from '../../services/api';
+import { getState } from '../context';
+import { setUser, logout } from '../../services/auth';
 
-const useAuth = () => { 
+export const useAuth = () => { 
 	const [state, dispatch] = getState();
 	async function signupAction(username, email, password) {
 		try {
@@ -26,7 +26,7 @@ const useAuth = () => {
 		try {
 			dispatch({ type: 'REQUEST_LOGIN' });
 			let response = await login(email, password);
-			console.log("response loginAction", response)
+		
 			const data = {
 				...state,
 				token: response.data.jwt,
@@ -35,7 +35,13 @@ const useAuth = () => {
 	
 			if (response && response.data.user) {
 				dispatch({ type: 'LOGIN_SUCCESS', payload: data });
-				setUser({token: data.token, username: data.username})
+				setUser({
+					token: data.token, 
+					user: { 
+						username: data.username, 
+						email: response.data.user.email
+					}
+				})
 				return data;
 			}
 
@@ -50,7 +56,17 @@ const useAuth = () => {
 		logout(callback)
 	}
 
-	return { loginAction, logoutAction, signupAction }
+	async function getArticlesAction() {
+		
+		try {
+			const response = await fetchArticles();
+		
+			if(response && response.status === 200) {
+				dispatch({type: 'FETCH_ARTICLES_SUCCESS', payload: response.data})
+			}
+		} catch(err) {
+			console.log("error article while fetching articles", err)
+		}
+	}
+	return { loginAction, logoutAction, signupAction, getArticlesAction}
 }
-
-export default useAuth;

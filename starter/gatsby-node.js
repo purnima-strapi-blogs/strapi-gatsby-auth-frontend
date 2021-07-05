@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 exports.onCreateWebpackConfig = ({
     actions,
     plugins,
@@ -33,31 +35,4 @@ exports.onCreatePage = async ({ page, actions }) => {
         createPage(page)
     }
 }
-
-exports.createPages = async function ({ actions, graphql }) {
-    const { data } = await graphql(`
-        query {
-            allStrapiArticle {
-                edges {
-                    node {
-                        slug
-                    }
-                }
-            }
-        }      
-    `)
-
-    data.allStrapiArticle.edges.forEach(article => {
-        const slug = article.node.slug;
-        console.log("node.slug", article.node.slug);
-        actions.createPage({
-            path: `/app/articles/${slug}`,
-            component: require.resolve(`./src/templates/article.js`),
-            context: { slug: slug },
-        })
-    })
-    
-}
-
-
 

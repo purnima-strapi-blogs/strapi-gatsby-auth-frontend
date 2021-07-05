@@ -1,29 +1,26 @@
 import React from "react"
-import { Router } from "@reach/router"
-import Layout from "../components/layout"
+import { Router,Redirect } from "@reach/router"
 import PrivateRoute from "../components/privateRoute"
-// import Profile from "../components/profile"
-// import Login from "../components/login"
-import Home from './home';
+import Home from '../components/home';
 import Login from '../components/login';
 import Signup from "../components/signup";
-import { useEffect } from 'react';
-import { getUser, isLoggedIn } from "../services/auth";
-import { navigate } from '@gatsbyjs/reach-router';
-import Logout from '../components/logout';
-import Article from '../templates/article';
+import Article from '../components/article';
+import Category from '../components/category';
 
 const Index = ({location, history}) => {
-    return(
-        <Layout> 
-            <Logout/>
-            <Router>
-                <PrivateRoute exact path="/app/articles" component={Home}/>
-                <PrivateRoute exact path={`/app/articles/:slug`} component={Article} />
-                <Login path="/app/login" location={location} history={history}/>
-                <Signup path="/app/signup" />
-            </Router>
-        </Layout>
+    return(        
+        <Router>
+            <Redirect
+                from="/app"
+                to="/app/articles"
+                noThrow
+            />
+            <PrivateRoute exact path="/app/articles" component={Home}/>
+            <PrivateRoute exact path={`/app/articles/:slug`} component={Article} />
+            <PrivateRoute exact path={`/app/category/:slug`} component={Category} />
+            <Login path="/app/login" />
+            <Signup path="/app/signup" />
+        </Router>     
     )
 }
 export default Index;
