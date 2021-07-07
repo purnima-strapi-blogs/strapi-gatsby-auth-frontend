@@ -9,7 +9,7 @@ export default function Index() {
     return (
         <Layout>
             <div style={{ textAlign: "center", margin: "10%" }}>
-                <h1>Hello {isLoggedIn() ? JSON.stringify(getUser().username) : "How're you?"}</h1>
+                <h1>Hello, {isLoggedIn() ? JSON.stringify(getUser().username) : "How're you?"}</h1>
                 <p>
                     {isLoggedIn() ? (
                         <>

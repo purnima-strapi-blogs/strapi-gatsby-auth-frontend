@@ -29,7 +29,7 @@ const Signup = () => {
                 throw new Error(response)
             }
             if(response && response.status && response.status === 200) {
-                navigate("/login")
+                navigate("/app/login")
             } 
         } catch(err) {
             console.log("err inside signup", err.message)

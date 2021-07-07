@@ -26,6 +26,7 @@ const Category = (props) => {
         }
         callMe()
     }, [props.slug])
+    
     return (
         <Layout seo={seo}>
             <div className="uk-section">
