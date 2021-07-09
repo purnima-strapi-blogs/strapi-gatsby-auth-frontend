@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { navigate, Link } from 'gatsby'
 import {useAuth} from '../context/authStore/actions'
 import Layout from './layout';
+import { isLoggedIn } from '../services/auth';
 
-const Login = () => {
+const Login = (props) => {
     const [emailId, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
@@ -18,12 +19,15 @@ const Login = () => {
         }
     }
 
+    console.log("props.redirect", props.history)
     const handleSubmit = async (event) => {
         event.preventDefault()
         
         try {
-            const response = await loginAction(emailId, password);
-            navigate(`/app/articles`)
+            const response = await loginAction(emailId, password);   
+            //navigate(`/app/articles`)
+            navigate(-1, {replace: true})
+            
         }
         catch (err) {
             setError(err)
@@ -32,6 +36,8 @@ const Login = () => {
 
     return (
         <Layout>
+            {
+            !isLoggedIn() ?
             <div className="uk-section">
             <div className="uk-container">
                 <h1>Login</h1>
@@ -89,6 +95,11 @@ const Login = () => {
                 <Link to="/app/articles">Go to Home Page</Link>
             </div>
             </div>
+
+            : 
+
+            navigate("/app/articles")
+        }
         </Layout>
     )
 }

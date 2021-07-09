@@ -5,22 +5,24 @@ import Home from '../components/home';
 import Login from '../components/login';
 import Signup from "../components/signup";
 import Article from '../components/article';
-import Category from '../components/category';
+import Category from '../templates/category';
 
-const Index = ({location, history}) => {
-    return(        
+
+const App = ({location, history}) => {
+    
+    return(   
         <Router>
             <Redirect
                 from="/app"
                 to="/app/articles"
                 noThrow
             />
-            <PrivateRoute exact path="/app/articles" component={Home}/>
-            <PrivateRoute exact path={`/app/articles/:slug`} component={Article} />
-            <PrivateRoute exact path={`/app/category/:slug`} component={Category} />
+            <Home exact path="/app/articles" />
+            <PrivateRoute exact path={`/app/articles/:slug`} component={Article}/>
+            <Category exact path={`/category/:slug`} />
             <Login path="/app/login" />
             <Signup path="/app/signup" />
-        </Router>     
+        </Router>    
     )
 }
-export default Index;
+export default App;

@@ -1,43 +1,39 @@
 import React from "react";
 import { Link } from "gatsby";
+import { GatsbyImage } from "gatsby-plugin-image";
 
 const Card = ({ article }) => {
     return (
-        article && (
-            <Link to={`/app/articles/${article.slug}`} className="uk-link-reset">
+        <Link to={`/app/articles/${article.node.strapiId}`} className="uk-link-reset">
             <div className="uk-card uk-card-muted">
                 <div className="uk-card-media-top">
-                    {
-                        article.image && article.image.formats.large 
-                        ? 
-                        <img src={`${process.env.GATSBY_SERVER_API_URL}${article.image.formats.large.url}`} alt="" />
-                        :
-                        <img src={`${process.env.GATSBY_SERVER_API_URL}${article.image.formats.medium.url}`} alt="" />
-                             
-                    }   
+                    <GatsbyImage
+                        image={article.node.image.localFile.childImageSharp.gatsbyImageData}
+                        alt={`Hero image`}
+                    />
                 </div>
                 <div className="uk-card-body">
                     <p id="category" className="uk-text-uppercase">
-                        {article.category.name}
+                        {article.node.category.name}
                     </p>
                     <p id="title" className="uk-text-large">
-                        {article.title}
+                        {article.node.title}
                     </p>
                     <div>
                         <hr className="uk-divider-small" />
                         <div className="uk-grid-small uk-flex-left" data-uk-grid="true">
                             <div>
-                                {article.author.picture && (
-                                   <img 
-                                        src={`${process.env.GATSBY_SERVER_API_URL}${article.author.picture.formats.thumbnail.url}`} 
-                                        alt={`Picture of ${article.author.name}`} 
-                                        style={{borderRadius: "50%", "width": "30px", "height": "30px"}}
+                                {article.node.author.picture && (
+                                    <GatsbyImage
+                                        image={article.node.author.picture.localFile.childImageSharp.gatsbyImageData}
+                                        alt={`Picture of ${article.node.author.name}`}
+                                        style={{ borderRadius: "50%" }}
                                     />
                                 )}
                             </div>
                             <div className="uk-width-expand">
                                 <p className="uk-margin-remove-bottom">
-                                    {article.author.name}
+                                    {article.node.author.name}
                                 </p>
                             </div>
                         </div>
@@ -45,8 +41,8 @@ const Card = ({ article }) => {
                 </div>
             </div>
         </Link>
-        )
     );
 };
 
 export default Card;
+

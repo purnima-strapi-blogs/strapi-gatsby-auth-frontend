@@ -2,7 +2,7 @@ import React from "react";
 import { getCurrentUserToken } from "../services/auth";
 import Card from "./card";
 
-const Articles = ({ articles }) => {
+const Articles = ({ articles, redirect }) => {
     console.log(getCurrentUserToken());
     let leftArticlesCount = 0, leftArticles = 0, rightArticles = 0;
 
@@ -22,6 +22,7 @@ const Articles = ({ articles }) => {
                             <Card
                                 article={article}
                                 key={`article__left__${article.slug}`}
+                                redirect={redirect}
                             />
                         );
                     })}
@@ -33,6 +34,7 @@ const Articles = ({ articles }) => {
                                 <Card
                                     article={article}
                                     key={`article__right__${article.slug}`}
+                                    redirect={redirect}
                                 />
                             );
                         })}

@@ -1,46 +1,71 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { graphql, useStaticQuery } from "gatsby";
 import ArticlesComponent from "./articles";
-import { fetchArticles } from "../services/api";
-import Layout from "./layout";
 import "../assets/css/main.css";
+import Layout from './layout';
+
 
 const Home = () => {
-    const [articles, setArticles] = useState([])
-    const [homepage, setHomePageData] = useState({})
-    const [error, setError] = useState([])
-
-    useEffect(() => {
-        const callMe = async () => {
-            const response = await fetchArticles();
-            if (response && response.status) {
-                setArticles(response.data.data.articles)
-                setHomePageData(response.data.data.homepage)
-            }
-
-            if (response.data.errors && response.data.errors.length > 0) {
-                setError(response.data.errors)
-            }
-        }
-        callMe()
-    }, [])
-
+    const data = useStaticQuery(query);
+ 
     return (
         <Layout>
-            (
-
             <div className="uk-section">
                 <div className="uk-container uk-container-large">
-                    <h1>{Object.keys(homepage).length && homepage.hero.title}</h1>
-                    <ArticlesComponent articles={articles} />
-
+                    <h1>{data.strapiHomepage.hero.title}</h1>
+                    <ArticlesComponent articles={data.allStrapiArticles.edges}/>
                 </div>
             </div>
-
-            )
-
         </Layout>
     );
 };
 
+const query = graphql`
+  query {
+    strapiHomepage {
+      hero {
+        title
+      }
+      seo {
+        metaTitle
+        metaDescription
+        shareImage {
+          localFile {
+            publicURL
+          }
+        }
+      }
+    }
+    allStrapiArticles(filter: { status: { eq: "published" } }) {
+      edges {
+        node {
+          strapiId
+          slug
+          title
+          category {
+            name
+          }
+          image {
+            localFile {
+              childImageSharp {
+                gatsbyImageData(width: 800, height: 500)
+              }
+            }
+          }
+          author {
+            name
+            picture {
+              localFile {
+                childImageSharp {
+                  gatsbyImageData(width: 30, height: 30)
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 export default Home;

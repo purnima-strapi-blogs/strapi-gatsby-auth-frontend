@@ -1,6 +1,7 @@
 import React from "react"
 import { isLoggedIn, getCurrentUser } from '../services/auth';
-import { Link, navigate } from "@reach/router"
+import { navigate } from "@reach/router"
+import { Link } from 'gatsby';
 import {useAuth} from '../context/authStore/actions';
 
 const Logout = () => {

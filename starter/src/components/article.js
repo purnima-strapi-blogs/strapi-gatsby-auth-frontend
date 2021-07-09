@@ -7,8 +7,6 @@ import { fetchArticle } from "../services/api";
 const Article = (props) => {
     const [singleArticle, setArticle] = useState({});
 
-    const slug = props.slug;
-
     const seo = {
         metaTitle: singleArticle.title,
         metaDescription: singleArticle.description,
@@ -18,8 +16,9 @@ const Article = (props) => {
 
     useEffect(() => {
         const fetchSingleArticle = async () => {
-            const response = await fetchArticle(slug);
-            setArticle(response.data.data.articles[0])
+            const response = await fetchArticle(props.slug);
+            setArticle(response.data.data.article)
+            //setArticle(response.data)
         }
         fetchSingleArticle()
     }, [])
