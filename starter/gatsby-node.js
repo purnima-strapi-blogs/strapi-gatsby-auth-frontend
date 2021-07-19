@@ -52,7 +52,6 @@ exports.createPages = async function ({ actions, graphql }) {
       
     data.allStrapiCategory.edges.forEach(category => {
         const slug = category.node.slug;
-        console.log("node.slug", category.node.slug);
         actions.createPage({
             path: `/app/category/${slug}`,
             component: require.resolve(`./src/templates/category.js`),

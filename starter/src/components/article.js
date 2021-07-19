@@ -3,11 +3,13 @@ import Moment from "react-moment";
 import Layout from "./layout";
 import Markdown from "react-markdown";
 import { fetchArticle } from "../services/api";
+import { navigate } from '@reach/router';
 
 const Article = (props) => {
     const [singleArticle, setArticle] = useState({});
+    const [error, setError] = useState('');
 
-    const seo = {
+    const seo = singleArticle && {
         metaTitle: singleArticle.title,
         metaDescription: singleArticle.description,
         shareImage: singleArticle.image,
@@ -16,15 +18,16 @@ const Article = (props) => {
 
     useEffect(() => {
         const fetchSingleArticle = async () => {
-            const response = await fetchArticle(props.slug);
+            const response = await fetchArticle(props.slug);        
             setArticle(response.data.data.article)
-            //setArticle(response.data)
+
         }
         fetchSingleArticle()
     }, [])
 
     return (
-        Object.keys(singleArticle).length && (
+        singleArticle && Object.keys(singleArticle).length && 
+        (
             <Layout seo={seo}>
                 <div>
                     <div style={{ display: "grid" }}>

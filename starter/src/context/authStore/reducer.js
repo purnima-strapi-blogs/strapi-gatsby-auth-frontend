@@ -1,16 +1,17 @@
 import { getCurrentUser, getCurrentUserToken } from '../../services/auth';
 
 const username = getCurrentUser()
-const token = getCurrentUserToken()
+// const token = getCurrentUserToken()
 
 
 export const initialState = {
 	username: '' || username,
-	token: '' || token,
+	// token: '',
 	loading: false,
 	errorMessage: null,
 	articles: [],
-	loading: false
+	loading: false,
+	isLoggedIn: false
 
 };
 
@@ -40,7 +41,8 @@ export const AuthReducer = (initialState, action) => {
 			return {
 				...initialState,
 				username: action.payload.username,
-				token: action.payload.token,
+				isLoggedIn: true,
+				// token: action.payload.token,
 				loading: false,
 				errorMessage: ''
 			};
@@ -48,7 +50,8 @@ export const AuthReducer = (initialState, action) => {
 			return {
 				...initialState,
 				username: '',
-				token: '',
+				// token: '',
+				isLoggedIn: false
 			};
 
 		case 'LOGIN_ERROR':

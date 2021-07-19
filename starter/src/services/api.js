@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { getCurrentUserToken } from './auth';
-
 
 export async function signup(username, email, password) { 
     try {
@@ -28,29 +26,39 @@ export async function login(email, password) {
     try {
         const data = await axios({
             method: 'post',
-            url: `http://localhost:1337/auth/local`,
+            url: `http://localhost:1337/auth/cookielogin`,
             data: {
               identifier: email,
               password
             },
-            // withCredentials: true
+            withCredentials: true
         });
+        console.log("data", data)
         return data
     } catch(err) {
-        throw err.response.data.message[0].messages[0].message;
+        console.log(err)
+    }
+}
+
+export async function logout() {
+    try {
+        const data = await axios({
+            method: 'post',
+            url: `http://localhost:1337/logout`,
+            withCredentials: true
+        });
+        console.log("logout response is", data)
+        return data
+    } catch(err) {
+        console.log(err)
     }
 }
 
 export async function fetchArticles() {
-    const token = getCurrentUserToken();
     try {
         const response = await axios({
             method: 'post',
             url: `http://localhost:1337/graphql`,
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
             data: { 
                 query: `
                     query Articles {
@@ -87,27 +95,20 @@ export async function fetchArticles() {
                         }
                     }
                 `   
-            }
+            },
         });
-        console.log("data returned", response)
         return response
     } catch(err) {
         console.log("err", err)
-        throw err.response.data.message[0].messages[0].message;
     }
 }
 
 
 export async function fetchArticle(id) {
-    const token = getCurrentUserToken();
     try {
         const response = await axios({
             method: 'post',
             url: `http://localhost:1337/graphql`,
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` 
-            },
             data: { 
                 query: `
                     query($id: ID!){
@@ -131,127 +132,11 @@ export async function fetchArticle(id) {
                     variables: {
                         id: id,
                     },
-            }
+            },
+            withCredentials: true
         });
-        console.log("data returned", response)
         return response
     } catch(err) {
         console.log("err", err)
-        throw err.response.data.message[0].messages[0].message;
     }
 }
-
-// export async function fetchArticle(slug) {
-//     const token = getCurrentUserToken();
-//     try {
-//         const response = await axios({
-//             method: 'get',
-//             url: `http://localhost:1337/articles/${slug}`,
-//             headers: { 
-//                 'Content-Type': 'application/json',
-//                 'Authorization': `Bearer ${token}` 
-//             },
-           
-//         });
-//         console.log("data returned", response)
-//         return response
-//     } catch(err) {
-//         console.log("err", err)
-//         throw err.response.data.message[0].messages[0].message;
-//     }
-// }
-
-
-
-// export async function fetchArticle(slug) {
-//     const token = getCurrentUserToken();
-//     try {
-//         const response = await axios({
-//             method: 'post',
-//             url: `http://localhost:1337/graphql`,
-//             headers: { 
-//                 'Content-Type': 'application/json',
-//                 'Authorization': `Bearer ${token}` 
-//             },
-//             data: { 
-//                 query: `
-//                     query ArticleQuery($slug: String!) {
-//                         articles(where: {slug: $slug}) {
-//                                 id
-//                                 title
-//                                 description
-//                                 content
-//                                 publishedAt
-//                                 image {
-//                                     formats
-//                                 } 
-//                                 author {
-//                                     name
-//                                     picture {
-//                                         formats
-//                                     }
-//                                 }
-//                             }
-//                         }
-//                     `,
-//                 variables: {
-//                     slug: slug,
-//                 },
-//             }
-//         });
-//         console.log("data returned", response)
-//         return response
-//     } catch(err) {
-//         console.log("err", err)
-//         throw err.response.data.message[0].messages[0].message;
-//     }
-// }
-
-// export async function fetchCategory(slug) {
-//     const token = getCurrentUserToken();
-//     try {
-//         const response = await axios({
-//             method: 'post',
-//             url: `http://localhost:1337/graphql`,
-//             headers: { 
-//                 'Content-Type': 'application/json', 
-//                 'Authorization': `Bearer ${token}` 
-//             },
-//             data: { 
-//                 query: `
-//                     query Category($slug: String!) {
-//                         categories(where: {slug: $slug }) {
-//                             name
-//                         }
-//                         articles(where: { status: "published" , category: { slug: $slug  } }) {
-//                             slug
-//                             title
-//                             category {
-//                                  name
-//                             }
-//                             image {
-//                                 formats
-//                             }
-//                             author {
-//                                 name
-//                                 picture {
-//                                     formats
-//                                 }
-//                             }
-//                         }
-//                     }
-//                 `,
-//                 variables: {
-//                     slug: slug,
-//                 },
-//             }
-//         });
-//         console.log("data returned", response)
-//         return response
-//     } catch(err) {
-//         console.log("err", err)
-//         // throw err.response.data.message[0].messages[0].message;
-//     }
-// }
-
-

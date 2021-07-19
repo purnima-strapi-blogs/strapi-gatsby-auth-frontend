@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { navigate, Link } from 'gatsby'
 import {useAuth} from '../context/authStore/actions'
 import Layout from './layout';
-import { isLoggedIn } from '../services/auth';
+import { isUserLoggedIn } from '../services/auth';
+
 
 const Login = (props) => {
     const [emailId, setEmail] = useState('')
@@ -19,7 +20,6 @@ const Login = (props) => {
         }
     }
 
-    console.log("props.redirect", props.history)
     const handleSubmit = async (event) => {
         event.preventDefault()
         
@@ -37,7 +37,7 @@ const Login = (props) => {
     return (
         <Layout>
             {
-            !isLoggedIn() ?
+            !isUserLoggedIn() ?
             <div className="uk-section">
             <div className="uk-container">
                 <h1>Login</h1>

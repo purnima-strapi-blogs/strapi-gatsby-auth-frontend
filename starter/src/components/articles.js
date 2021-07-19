@@ -3,7 +3,7 @@ import { getCurrentUserToken } from "../services/auth";
 import Card from "./card";
 
 const Articles = ({ articles, redirect }) => {
-    console.log(getCurrentUserToken());
+   
     let leftArticlesCount = 0, leftArticles = 0, rightArticles = 0;
 
     if(articles) {
@@ -21,7 +21,7 @@ const Articles = ({ articles, redirect }) => {
                         return (
                             <Card
                                 article={article}
-                                key={`article__left__${article.slug}`}
+                                key={`article__left__${article.node.strapiId}`}
                                 redirect={redirect}
                             />
                         );
@@ -33,7 +33,7 @@ const Articles = ({ articles, redirect }) => {
                             return (
                                 <Card
                                     article={article}
-                                    key={`article__right__${article.slug}`}
+                                    key={`article__right__${article.node.strapiId}`}
                                     redirect={redirect}
                                 />
                             );

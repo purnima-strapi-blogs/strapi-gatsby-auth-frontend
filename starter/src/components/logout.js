@@ -1,5 +1,5 @@
 import React from "react"
-import { isLoggedIn, getCurrentUser } from '../services/auth';
+import { isUserLoggedIn, getCurrentUser } from '../services/auth';
 import { navigate } from "@reach/router"
 import { Link } from 'gatsby';
 import {useAuth} from '../context/authStore/actions';
@@ -8,7 +8,7 @@ const Logout = () => {
     let details;
     const { logoutAction } = useAuth();
 
-    if (!isLoggedIn()) {
+    if (!isUserLoggedIn()) {
         details = (
             <div >
                 To get the full app experience, you’ll need to

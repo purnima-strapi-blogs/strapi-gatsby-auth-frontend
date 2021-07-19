@@ -1,6 +1,6 @@
-import { login, signup, fetchArticles } from '../../services/api';
+import { login, signup, fetchArticles, logout} from '../../services/api';
 import { getState } from '../context';
-import { setUser, logout } from '../../services/auth';
+import { setUser, clearLocalStorage } from '../../services/auth';
 
 export const useAuth = () => { 
 	const [state, dispatch] = getState();
@@ -29,14 +29,14 @@ export const useAuth = () => {
 		
 			const data = {
 				...state,
-				token: response.data.jwt,
+				// token: response.data.jwt,
 				username: response.data.user.username,
 			}
 	
 			if (response && response.data.user) {
 				dispatch({ type: 'LOGIN_SUCCESS', payload: data });
 				setUser({
-					token: data.token, 
+					// token: data.token, 
 					user: { 
 						username: data.username, 
 						email: response.data.user.email
@@ -51,9 +51,15 @@ export const useAuth = () => {
 			throw error;
 		}
 	}
-	function logoutAction(callback) {
-		dispatch({ type: 'LOGOUT' });
-		logout(callback)
+	async function logoutAction(callback) {
+		try {
+			let response = await logout();
+			dispatch({ type: 'LOGOUT' });
+			clearLocalStorage(callback)
+
+		} catch(error) {
+			console.log("error", error)
+		}
 	}
 
 	async function getArticlesAction() {
