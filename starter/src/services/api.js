@@ -1,66 +1,67 @@
-import axios from 'axios';
+import axios from "axios";
 
-export async function signup(username, email, password) { 
-    try {
-        const data = await axios({
-            method: 'POST',
-            url: `${process.env.GATSBY_SERVER_API_URL}/auth/local/register`,
-            data: {
-                username: username,
-                email: email,
-                password: password
-            },
-            headers:{
-                'Content-Type': 'application/json',
-            }
-        })
-        return data
-       
-    } catch(err) {
-        console.error("err inside api.js", err);
-        throw(err);
-    }   
+export async function signup(username, email, password) {
+  try {
+    const data = await axios({
+      method: "POST",
+      url: `http://localhost:1337/auth/local/register`,
+      data: {
+        username: username,
+        email: email,
+        password: password,
+      },
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+        "Acess-Control-Allow-Origin": "http://localhost:1337",
+      },
+    });
+    return data;
+  } catch (err) {
+    console.error("err inside api.js", err);
+    throw err;
+  }
 }
 
 export async function login(email, password) {
-    try {
-        const data = await axios({
-            method: 'post',
-            url: `http://localhost:1337/auth/cookielogin`,
-            data: {
-              identifier: email,
-              password
-            },
-            withCredentials: true
-        });
-        console.log("data", data)
-        return data
-    } catch(err) {
-        console.log(err)
-    }
+  try {
+    const data = await axios({
+      method: "POST",
+      url: `http://localhost:1337/auth/local`,
+      data: {
+        identifier: email,
+        password,
+      },
+      withCredentials: true,
+    });
+    console.log("data", data);
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export async function logout() {
-    try {
-        const data = await axios({
-            method: 'post',
-            url: `http://localhost:1337/logout`,
-            withCredentials: true
-        });
-        console.log("logout response is", data)
-        return data
-    } catch(err) {
-        console.log(err)
-    }
+  try {
+    const data = await axios({
+      method: "post",
+      url: `http://localhost:1337/logout`,
+      withCredentials: true,
+    });
+    console.log("logout response is", data);
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export async function fetchArticles() {
-    try {
-        const response = await axios({
-            method: 'post',
-            url: `http://localhost:1337/graphql`,
-            data: { 
-                query: `
+  try {
+    const response = await axios({
+      method: "post",
+      url: `http://localhost:1337/graphql`,
+      data: {
+        query: `
                     query Articles {
                         homepage {
                             hero {
@@ -94,23 +95,22 @@ export async function fetchArticles() {
                             }
                         }
                     }
-                `   
-            },
-        });
-        return response
-    } catch(err) {
-        console.log("err", err)
-    }
+                `,
+      },
+    });
+    return response;
+  } catch (err) {
+    console.log("err", err);
+  }
 }
 
-
 export async function fetchArticle(id) {
-    try {
-        const response = await axios({
-            method: 'post',
-            url: `http://localhost:1337/graphql`,
-            data: { 
-                query: `
+  try {
+    const response = await axios({
+      method: "post",
+      url: `http://localhost:1337/graphql`,
+      data: {
+        query: `
                     query($id: ID!){
                         article(id: $id ) {
                             id
@@ -129,14 +129,16 @@ export async function fetchArticle(id) {
                             }
                         }
                     }`,
-                    variables: {
-                        id: id,
-                    },
-            },
-            withCredentials: true
-        });
-        return response
-    } catch(err) {
-        console.log("err", err)
-    }
+        variables: {
+          id: id,
+        },
+      },
+      withCredentials: true,
+    });
+
+    console.log(response);
+    return response;
+  } catch (err) {
+    console.log("err", err);
+  }
 }
