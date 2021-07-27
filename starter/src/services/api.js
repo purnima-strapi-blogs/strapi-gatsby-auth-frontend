@@ -13,7 +13,6 @@ export async function signup(username, email, password) {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
-        "Acess-Control-Allow-Origin": "http://localhost:1337",
       },
     });
     return data;
@@ -107,7 +106,7 @@ export async function fetchArticles() {
 export async function fetchArticle(id) {
   try {
     const response = await axios({
-      method: "post",
+      method: "POST",
       url: `http://localhost:1337/graphql`,
       data: {
         query: `

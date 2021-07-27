@@ -7,12 +7,12 @@ import Layout from './layout';
 
 const Home = () => {
     const data = useStaticQuery(query);
- 
+     
     return (
         <Layout>
             <div className="uk-section">
                 <div className="uk-container uk-container-large">
-                    <h1>{data.strapiHomepage.hero.title}</h1>
+                    <h1>{data.allStrapiHomepage.edges[0].node.hero.title}</h1>
                     <ArticlesComponent articles={data.allStrapiArticles.edges}/>
                 </div>
             </div>
@@ -22,16 +22,32 @@ const Home = () => {
 
 const query = graphql`
   query {
-    strapiHomepage {
-      hero {
-        title
-      }
-      seo {
-        metaTitle
-        metaDescription
-        shareImage {
-          localFile {
-            publicURL
+    allStrapiHomepage {
+      # hero {
+      #   title
+      # }
+      # seo {
+      #   metaTitle
+      #   metaDescription
+      #   shareImage {
+      #     localFile {
+      #       publicURL
+      #     }
+      #   }
+      # }
+      edges {
+      node {
+        hero {
+          title
+        }
+        seo {
+          metaTitle
+          metaDescription
+            shareImage {
+              localFile {
+                publicURL
+              }
+            } 
           }
         }
       }

@@ -8,16 +8,30 @@ const Layout = ({ children, seo }) => (
     <StaticQuery
         query={graphql`
       query {
-        strapiHomepage {
-          seo {
-            metaTitle
-            metaDescription
-            shareImage {
-              localFile {
-                publicURL
+        allStrapiHomepage {
+          edges {
+          node {
+            seo {
+              metaTitle
+              metaDescription
+              shareImage {
+                localFile {
+                  publicURL
+                }
               }
             }
           }
+        }
+              
+          # seo {
+          #   metaTitle
+          #   metaDescription
+          #   shareImage {
+          #     localFile {
+          #       publicURL
+          #     }
+          #   }
+          # }
         }
       }
     `}

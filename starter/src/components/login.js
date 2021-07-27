@@ -25,8 +25,8 @@ const Login = (props) => {
         
         try {
             const response = await loginAction(emailId, password);   
-            //navigate(`/app/articles`)
-            navigate(-1, {replace: true})
+            navigate(`/app/articles`)
+            // navigate(-1, {replace: true})
             
         }
         catch (err) {

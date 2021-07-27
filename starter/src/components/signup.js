@@ -24,7 +24,8 @@ const Signup = () => {
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
-            const response = await signupAction(username, email, password)        
+            const response = await signupAction(username, email, password) 
+            setError('')       
             if(response instanceof Error) {
                 throw new Error(response)
             }
@@ -33,7 +34,7 @@ const Signup = () => {
             } 
         } catch(err) {
             console.log("err inside signup", err.message)
-            setError('Email is already taken')
+            setError(err.message)
         }  
     }
     return (
