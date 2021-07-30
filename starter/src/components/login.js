@@ -25,6 +25,7 @@ const Login = (props) => {
         
         try {
             const response = await loginAction(emailId, password);   
+            console.log("response", response)
             navigate(`/app/articles`)
             // navigate(-1, {replace: true})
             

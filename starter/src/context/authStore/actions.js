@@ -1,4 +1,4 @@
-import { login, signup, fetchArticles, logout} from '../../services/api';
+import { login, signup, logout} from '../../services/api';
 import { getState } from '../context';
 import { setUser, clearLocalStorage } from '../../services/auth';
 
@@ -22,32 +22,27 @@ export const useAuth = () => {
 		}
 
 	}
-	async function loginAction(email, password) {
+	async function loginAction(emailId, password) {
 		try {
 			dispatch({ type: 'REQUEST_LOGIN' });
-			let response = await login(email, password);
-		
-			const data = {
-				...state,
-				// token: response.data.jwt,
-				username: response.data.user.username,
-			}
-	
-			if (response && response.data.user) {
-				dispatch({ type: 'LOGIN_SUCCESS', payload: data });
-				setUser({
-					// token: data.token, 
+			let response = await login(emailId, password);
+			const {username, email } = response.data.user;
+
+			console.log("request", response.status)
+			if ( response.status === 200 && response && response.data.user) {
+				dispatch({ type: 'LOGIN_SUCCESS', payload: {username, email} });
+				setUser({ 
 					user: { 
-						username: data.username, 
-						email: response.data.user.email
+						username: username, 
+						email: email
 					}
 				})
-				return data;
+				// console.log(getState())
 			}
 
 		} catch (error) {
-			dispatch({ type: 'LOGIN_ERROR', error: error });
 			console.log(error);
+			dispatch({ type: 'LOGIN_ERROR', error: error });
 			throw error;
 		}
 	}
@@ -62,17 +57,17 @@ export const useAuth = () => {
 		}
 	}
 
-	async function getArticlesAction() {
+	// async function getArticlesAction() {
 		
-		try {
-			const response = await fetchArticles();
+	// 	try {
+	// 		const response = await fetchArticles();
 		
-			if(response && response.status === 200) {
-				dispatch({type: 'FETCH_ARTICLES_SUCCESS', payload: response.data})
-			}
-		} catch(err) {
-			console.log("error article while fetching articles", err)
-		}
-	}
-	return { loginAction, logoutAction, signupAction, getArticlesAction}
+	// 		if(response && response.status === 200) {
+	// 			dispatch({type: 'FETCH_ARTICLES_SUCCESS', payload: response.data})
+	// 		}
+	// 	} catch(err) {
+	// 		console.log("error article while fetching articles", err)
+	// 	}
+	// }
+	return { loginAction, logoutAction, signupAction }
 }

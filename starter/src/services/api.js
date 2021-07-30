@@ -24,7 +24,7 @@ export async function signup(username, email, password) {
 
 export async function login(email, password) {
   try {
-    const data = await axios({
+    const response = await axios({
       method: "POST",
       url: `http://localhost:1337/auth/local`,
       data: {
@@ -33,10 +33,11 @@ export async function login(email, password) {
       },
       withCredentials: true,
     });
-    console.log("data", data);
-    return data;
+    return response;
   } catch (err) {
-    console.log(err);
+      console.log(err.response)
+      console.log(err.message, err.statusCode);
+      throw err.response.data.message[0].messages[0].message
   }
 }
 
@@ -54,54 +55,54 @@ export async function logout() {
   }
 }
 
-export async function fetchArticles() {
-  try {
-    const response = await axios({
-      method: "post",
-      url: `http://localhost:1337/graphql`,
-      data: {
-        query: `
-                    query Articles {
-                        homepage {
-                            hero {
-                                title
-                            }
-                            seo {
-                                metaTitle
-                                metaDescription
-                                shareImage {
-                                url
-                                }
-                            }
-                        }
-                        articles {
-                            id
-                            title
-                            slug
-                            category {
-                                id
-                                name
-                            }
-                            image {
-                                formats 
-                            }
-                            author {
-                                id
-                                name
-                                picture {
-                                    formats
-                                }
-                            }
-                        }
-                    }
-                `,
-      },
-    });
-    return response;
-  } catch (err) {
-    console.log("err", err);
-  }
-}
+// export async function fetchArticles() {
+//   try {
+//     const response = await axios({
+//       method: "post",
+//       url: `http://localhost:1337/graphql`,
+//       data: {
+//         query: `
+//                     query Articles {
+//                         homepage {
+//                             hero {
+//                                 title
+//                             }
+//                             seo {
+//                                 metaTitle
+//                                 metaDescription
+//                                 shareImage {
+//                                 url
+//                                 }
+//                             }
+//                         }
+//                         articles {
+//                             id
+//                             title
+//                             slug
+//                             category {
+//                                 id
+//                                 name
+//                             }
+//                             image {
+//                                 formats 
+//                             }
+//                             author {
+//                                 id
+//                                 name
+//                                 picture {
+//                                     formats
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 `,
+//       },
+//     });
+//     return response;
+//   } catch (err) {
+//     console.log("err", err);
+//   }
+// }
 
 export async function fetchArticle(id) {
   try {

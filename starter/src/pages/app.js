@@ -7,7 +7,6 @@ import Signup from "../components/signup";
 import Article from '../components/article';
 import Category from '../templates/category';
 
-
 const App = ({location, history}) => {
     
     return(   

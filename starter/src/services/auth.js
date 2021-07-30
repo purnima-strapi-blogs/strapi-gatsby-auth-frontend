@@ -13,6 +13,7 @@ export const setUser = (user) =>
     if not, then redirect to login page again. Check this later.
  
  */
+
 export const isUserLoggedIn = () => {
   const user = getUser();
   if (user && user.user && user.user.username) {

@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { graphql, useStaticQuery } from "gatsby";
 import ArticlesComponent from "./articles";
 import "../assets/css/main.css";
 import Layout from './layout';
+import { AuthContext } from '../context/context';
+
 
 
 const Home = () => {
     const data = useStaticQuery(query);
-     
+    console.log(useContext(AuthContext));
     return (
         <Layout>
             <div className="uk-section">

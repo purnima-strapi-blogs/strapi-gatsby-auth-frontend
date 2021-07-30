@@ -16,8 +16,7 @@ const Article = (props) => {
     shareImage: singleArticle.image,
     article: true,
   };
-  console.log("props inside", props)
-
+  
   useEffect(() => {
     const fetchSingleArticle = async () => {
     //   console.log(props.slug);
@@ -28,7 +27,7 @@ const Article = (props) => {
     //   });
     
         const { data} = await fetchArticle(props.slug);
-        console.log("data is",data.data.article)
+       
          setArticle(data.data.article);
     };
 
