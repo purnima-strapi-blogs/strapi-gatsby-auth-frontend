@@ -63,6 +63,3 @@ const Category = ({ data }) => {
 };
 
 export default Category;
-
-
-

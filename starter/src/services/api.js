@@ -55,55 +55,6 @@ export async function logout() {
   }
 }
 
-// export async function fetchArticles() {
-//   try {
-//     const response = await axios({
-//       method: "post",
-//       url: `http://localhost:1337/graphql`,
-//       data: {
-//         query: `
-//                     query Articles {
-//                         homepage {
-//                             hero {
-//                                 title
-//                             }
-//                             seo {
-//                                 metaTitle
-//                                 metaDescription
-//                                 shareImage {
-//                                 url
-//                                 }
-//                             }
-//                         }
-//                         articles {
-//                             id
-//                             title
-//                             slug
-//                             category {
-//                                 id
-//                                 name
-//                             }
-//                             image {
-//                                 formats 
-//                             }
-//                             author {
-//                                 id
-//                                 name
-//                                 picture {
-//                                     formats
-//                                 }
-//                             }
-//                         }
-//                     }
-//                 `,
-//       },
-//     });
-//     return response;
-//   } catch (err) {
-//     console.log("err", err);
-//   }
-// }
-
 export async function fetchArticle(id) {
   try {
     const response = await axios({

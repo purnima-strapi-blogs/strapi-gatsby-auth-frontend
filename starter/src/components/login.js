@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { navigate, Link } from 'gatsby'
 import {useAuth} from '../context/authStore/actions'
 import Layout from './layout';
 import { isUserLoggedIn } from '../services/auth';
+import {  getState } from '../context/context';
 
 
 const Login = (props) => {
@@ -10,6 +11,7 @@ const Login = (props) => {
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const { loginAction} = useAuth()
+    const [ store, dispatch ] = getState()
 
     const handleChange = (event) => {
 
@@ -25,8 +27,9 @@ const Login = (props) => {
         
         try {
             const response = await loginAction(emailId, password);   
-            console.log("response", response)
-            navigate(`/app/articles`)
+            if(store.isLoggedIn) {
+                navigate(`/app/articles`)
+            }
             // navigate(-1, {replace: true})
             
         }

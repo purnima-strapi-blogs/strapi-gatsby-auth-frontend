@@ -48,6 +48,7 @@ export const AuthReducer = (initialState, action) => {
 			return {
 				...initialState,
 				username: '',
+				email: '',
 				isLoggedIn: false
 			};
 

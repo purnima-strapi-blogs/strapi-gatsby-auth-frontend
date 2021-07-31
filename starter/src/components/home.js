@@ -3,13 +3,9 @@ import { graphql, useStaticQuery } from "gatsby";
 import ArticlesComponent from "./articles";
 import "../assets/css/main.css";
 import Layout from './layout';
-import { AuthContext } from '../context/context';
-
-
 
 const Home = () => {
     const data = useStaticQuery(query);
-    console.log(useContext(AuthContext));
     return (
         <Layout>
             <div className="uk-section">
@@ -25,18 +21,6 @@ const Home = () => {
 const query = graphql`
   query {
     allStrapiHomepage {
-      # hero {
-      #   title
-      # }
-      # seo {
-      #   metaTitle
-      #   metaDescription
-      #   shareImage {
-      #     localFile {
-      #       publicURL
-      #     }
-      #   }
-      # }
       edges {
       node {
         hero {
