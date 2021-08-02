@@ -26,10 +26,9 @@ const Login = (props) => {
         event.preventDefault()
         
         try {
-            const response = await loginAction(emailId, password);   
-            if(store.isLoggedIn) {
-                navigate(`/app/articles`)
-            }
+            const response = await loginAction(emailId, password);     
+            navigate(`/app/articles`)
+            
             // navigate(-1, {replace: true})
             
         }

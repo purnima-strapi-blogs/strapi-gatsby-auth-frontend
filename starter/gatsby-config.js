@@ -3,6 +3,10 @@ require("dotenv").config({
 });
 
 module.exports = {
+  flags: {
+    DEV_SSR: false,
+    FAST_REFRESH: true,
+  },
   plugins: [
     "gatsby-plugin-react-helmet",
     {
@@ -35,7 +39,7 @@ module.exports = {
         display: `minimal-ui`,
         icon: `src/images/favicon.png`,
       },
-    },
+    },    
     "gatsby-plugin-offline",
-  ],
+  ],  
 };
